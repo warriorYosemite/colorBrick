@@ -1,5 +1,7 @@
 #include "HelloWorldScene.h"
 #include "extensions/cocos-ext.h"
+#include "constants.h"
+#include "MainScene.hpp"
 
 USING_NS_CC;
 
@@ -9,9 +11,8 @@ using namespace std;
 #define NUMBER_OF_GRIDS             8
 
 
-#define GAME_FONT                   "fonts/Deanna.ttf"
+
 #define TIME_DURATION               0.75
-#define GAME_HIGH_SCORE_KEY                         "highScoreKey"
 
 Scene* HelloWorld::createScene()
 {
@@ -59,7 +60,7 @@ void HelloWorld::onEnter()
     isGameOver = false;
     
     
-    LayerColor* m_bgLayer = LayerColor::create(Color4B(Color3B(156,156,156)), visibleSize.width, visibleSize.height);
+    LayerColor* m_bgLayer = LayerColor::create(Color4B(0,0,0, 255), visibleSize.width, visibleSize.height);
     m_bgLayer->setPosition(Vec2(0,0));
     this->addChild(m_bgLayer);
     
@@ -94,7 +95,7 @@ bool HelloWorld::onTouchBegan(Touch *touch, Event *event)
     CCLOG("in on touch began");
     isTouched = true;
     
-    Vec2 currLocation = touch->getLocation();
+    Size locationInNodeBG;
     
     if (isGameOver)
     {
@@ -104,11 +105,18 @@ bool HelloWorld::onTouchBegan(Touch *touch, Event *event)
     
     for (int i=0; i < m_gridCount; i++)
     {
-        LayerColor* gridE = m_gridVector.at(i);
-        Rect layerBox = gridE->getBoundingBox();
-        if (layerBox.containsPoint(currLocation))
+        Node* gridE = m_gridVector.at(i);
+        
+        Vec2 locationInNode = gridE->convertToNodeSpace(touch->getLocation());
+        
+        LayerColor* colorE = (LayerColor*)gridE->getChildByTag(GRID_BASE_TAG + i);
+        locationInNodeBG = colorE->getContentSize();
+        
+        Rect rect = Rect(0, 0, locationInNodeBG.width, locationInNodeBG.height);
+        
+        if (rect.containsPoint(locationInNode))
         {
-            Color3B currColor = gridE->getColor();
+            Color3B currColor = colorE->getColor();
             if (currColor == Color3B::WHITE)
             {
                 m_Score++;
@@ -150,13 +158,13 @@ void HelloWorld::handleGameOver(){
     popUpLayer->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height * 0.5));
     this->addChild(popUpLayer);
     
-    Label* gameOverText = Label::createWithTTF("GAME OVER", GAME_FONT, 100);
+    Label* gameOverText = Label::createWithTTF("GAME OVER !", GAME_FONT_HEADER, 50);
     gameOverText->setColor(Color3B::WHITE);
-    gameOverText->setPosition(Vec2(popUpLayer->getContentSize().width * 0.5, popUpLayer->getContentSize().height - gameOverText->getContentSize().height *0.5));
+    gameOverText->setPosition(Vec2(popUpLayer->getContentSize().width * 0.5, popUpLayer->getContentSize().height - gameOverText->getContentSize().height *0.9));
     popUpLayer->addChild(gameOverText);
 
-    std::string yourScoreStr = "Your Score :" + std::to_string(m_Score);
-    Label* yourScore = Label::createWithTTF(yourScoreStr, GAME_FONT, 75);
+    std::string yourScoreStr = "Your Score : " + std::to_string(m_Score);
+    Label* yourScore = Label::createWithTTF(yourScoreStr, GAME_FONT_HEADER, 50);
     yourScore->setColor(Color3B::WHITE);
     yourScore->setAnchorPoint(Vec2(0.5,0.5));
     yourScore->setPosition(Vec2(popUpLayer->getContentSize().width * 0.5, popUpLayer->getContentSize().height * 0.4));
@@ -164,14 +172,14 @@ void HelloWorld::handleGameOver(){
 
     
     std::string highScore = "High Score : " + std::to_string(m_highScore);
-    Label* highScoreStr = Label::createWithTTF(highScore, GAME_FONT, 75);
+    Label* highScoreStr = Label::createWithTTF(highScore, GAME_FONT_HEADER, 50);
     highScoreStr->setColor(Color3B::WHITE);
     highScoreStr->setAnchorPoint(Vec2(0.5, 0.5));
     highScoreStr->setPosition(Vec2(popUpLayer->getContentSize().width * 0.5, popUpLayer->getContentSize().height * 0.6));
     popUpLayer->addChild(highScoreStr);
     
     
-    Label* gameStart = Label::createWithTTF("PLAY AGAIN", GAME_FONT, 80);
+    Label* gameStart = Label::createWithTTF("PLAY AGAIN", GAME_FONT_HEADER, 55);
     MenuItemLabel* restartImage = MenuItemLabel::create(gameStart, CC_CALLBACK_1(HelloWorld::restartGameScenario, this));
     restartImage->setAnchorPoint(Vec2(0.5,0.5));
     auto restartMenu = Menu::create(restartImage, NULL);
@@ -179,8 +187,36 @@ void HelloWorld::handleGameOver(){
     popUpLayer->addChild(restartMenu);
     
     isGameOver = true;
+    
+    
+    homeButtonBg = Scale9Sprite::create("board_9patch.png");
+    homeButtonBg->setContentSize(Size(visibleSize.width * 0.4, visibleSize.height * 0.1));
+    homeButtonBg->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height * 0.15));
+    this->addChild(homeButtonBg);
+    
+    Label* homeLabel = Label::createWithTTF("HOME", GAME_FONT_HEADER, 40);
+    MenuItemLabel* homeStr = MenuItemLabel::create(homeLabel, CC_CALLBACK_1(HelloWorld::homeButtonCallback, this));
+    homeStr->setAnchorPoint(Vec2(0.5,0.5));
+    auto homeMenu = Menu::create(homeStr, NULL);
+    homeMenu->setPosition(Vec2(homeButtonBg->getContentSize().width * 0.5, homeButtonBg->getContentSize().height * 0.5));
+    homeButtonBg->addChild(homeMenu);
+
 }
 
+void HelloWorld::homeButtonCallback(Ref* pSender){
+
+    CCLOG("home button pressed");
+    unscheduleAllCallbacks();
+    
+    MainScene* mainScene = dynamic_cast<MainScene*>(Director::getInstance()->getRunningScene()->getChildren().at(1));
+    if (mainScene != NULL){
+    
+        mainScene->updateHighScoreAfterGame();
+    }
+    
+    this->removeFromParentAndCleanup(true);
+    
+}
 
 void HelloWorld::restartGameScenario(Ref* pSender){
     CCLOG("restart game clicked");
@@ -191,7 +227,10 @@ void HelloWorld::restartGameScenario(Ref* pSender){
     isGameOver = false;
     playerScore->setString(std::to_string(m_Score));
     
+    resetAllGridColors();
+    
     popUpLayer->removeFromParentAndCleanup(true);
+    homeButtonBg->removeFromParentAndCleanup(true);
     this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::updateColors), TIME_DURATION);
     
 }
@@ -208,28 +247,28 @@ void HelloWorld::setNumberOfGrids(int count)
 
 void HelloWorld::fillColorVector()
 {
-    Color3B elem1 = Color3B::GREEN;
+    Color3B elem1 = Color3B(22,141,129);
     m_colorVector.push_back(elem1);
     
-    Color3B elem2 = Color3B::BLUE;
+    Color3B elem2 = Color3B(0,51,102);
     m_colorVector.push_back(elem2);
     
-    Color3B elem3 = Color3B::YELLOW;
+    Color3B elem3 = Color3B(241,196,15);
     m_colorVector.push_back(elem3);
     
-    Color3B elem4 = Color3B::RED;
+    Color3B elem4 = Color3B(148,49,38);
     m_colorVector.push_back(elem4);
     
-    Color3B elem5 = Color3B::MAGENTA;
+    Color3B elem5 = Color3B(141,84,172);
     m_colorVector.push_back(elem5);
     
-    Color3B elem6 = Color3B::ORANGE;
+    Color3B elem6 = Color3B(202,111,30);
     m_colorVector.push_back(elem6);
     
-    Color3B elem7 = Color3B::BLACK;
+    Color3B elem7 = Color3B(102,205,170);
     m_colorVector.push_back(elem7);
     
-    Color3B elem8 = Color3B(102,51,0);
+    Color3B elem8 = Color3B(109,155,43);
     m_colorVector.push_back(elem8);
     
 }
@@ -240,13 +279,13 @@ void HelloWorld::createTopHeader()
     m_topHeader->setPosition(Vec2(0, visibleSize.height - visibleSize.height * 0.1));
     this->addChild(m_topHeader,1);
     
-    Label* yourScroreText = Label::createWithTTF("SCORE : ", GAME_FONT, 80);
-    yourScroreText->setPosition(Vec2(m_topHeader->getContentSize().width * 0.4, m_topHeader->getContentSize().height * 0.5));
+    Label* yourScroreText = Label::createWithTTF("SCORE : ", GAME_FONT_HEADER, 60);
+    yourScroreText->setPosition(Vec2(m_topHeader->getContentSize().width * 0.4, m_topHeader->getContentSize().height * 0.475));
     yourScroreText->setColor(Color3B::BLACK);
     m_topHeader->addChild(yourScroreText);
     
-    playerScore = Label::createWithTTF(std::to_string(m_Score), GAME_FONT, 100);
-    playerScore->setPosition(Vec2(m_topHeader->getContentSize().width * 0.75, m_topHeader->getContentSize().height * 0.5));
+    playerScore = Label::createWithTTF(std::to_string(m_Score), GAME_FONT_HEADER, 70);
+    playerScore->setPosition(Vec2(m_topHeader->getContentSize().width * 0.75, m_topHeader->getContentSize().height * 0.4));
     playerScore->setColor(Color3B::BLACK);
     m_topHeader->addChild(playerScore);
 }
@@ -275,8 +314,11 @@ void HelloWorld::updateColors(float dt)
         randNo = random(0, m_gridCount - 1);                // to avoid same color to be WHITE continously
     } while (randNo == m_previousNumber);
     
-    LayerColor* currE = m_gridVector.at(randNo);
-    currE->setColor(Color3B::WHITE);
+    Node* currE = m_gridVector.at(randNo);
+    
+    LayerColor* layerE = (LayerColor*)currE->getChildByTag(GRID_BASE_TAG + randNo);
+    layerE->setColor(Color3B::WHITE);
+    
     m_previousNumber = randNo;
     isTouched = false;
 }
@@ -286,9 +328,10 @@ void HelloWorld::resetAllGridColors(){
     CCLOG("all grid colors reset");
     for (int i=0; i < m_gridCount; i++)
     {
-        LayerColor* tempE = m_gridVector.at(i);
+        Node* tempE = m_gridVector.at(i);
+        LayerColor* layerE = (LayerColor*)tempE->getChildByTag(GRID_BASE_TAG + i);
         Color3B originalColor = m_colorVector.at(i);
-        tempE->setColor(originalColor);
+        layerE->setColor(originalColor);
     }
 }
 
@@ -327,18 +370,90 @@ void HelloWorld::createGameGrids(){
         Color3B colorE = m_colorVector.at(i);
         layerE->setColor(colorE);
         layerE->setTag(GRID_BASE_TAG + i);
+
+        Size ws = layerE->getContentSize();
+        Size maskSize = ws* 0.925;
+        
+        float radius = 40;
+
+        // create masked image and position to center it on screen
+        Node* clipNode = createRoundedRectMaskNode(maskSize, radius, 1.0f, 10);
+        clipNode->setAnchorPoint(Vec2(0,0));
+        clipNode->addChild(layerE);
+        
         if ( i % 2 == 0)
         {
-            layerE->setPosition(Vec2(0, (i * 0.5) * m_gridHeight));
+            clipNode->setPosition(Vec2(10, (i * 0.5) * m_gridHeight + 10));
         }else{
-        
+            
             int factor = (int )i /2;
-            layerE->setPosition(Vec2(m_gridWidth, factor * m_gridHeight));
+            clipNode->setPosition(Vec2(m_gridWidth, factor * m_gridHeight + 10));
         }
-        this->addChild(layerE);
-        m_gridVector.push_back(layerE);
+        
+        this->addChild(clipNode);
+        m_gridVector.push_back(clipNode);
     }
 
+}
+
+
+void HelloWorld::appendCubicBezier(int startPoint, std::vector<Vec2>& verts, const Vec2& from, const Vec2& control1, const Vec2& control2, const Vec2& to, uint32_t segments)
+{
+    float t = 0;
+    for(int i = 0; i < segments; i++)
+    {
+        float x = powf(1 - t, 3) * from.x + 3.0f * powf(1 - t, 2) * t * control1.x + 3.0f * (1 - t) * t * t * control2.x + t * t * t * to.x;
+        float y = powf(1 - t, 3) * from.y + 3.0f * powf(1 - t, 2) * t * control1.y + 3.0f * (1 - t) * t * t * control2.y + t * t * t * to.y;
+        verts[startPoint + i] = Vec2(x,y);
+        t += 1.0f / segments;
+    }
+}
+
+Node* HelloWorld::createRoundedRectMaskNode(Size size, float radius, float borderWidth, int cornerSegments)
+{
+    const float kappa = 0.552228474;
+    float oneMinusKappa = (1.0f-kappa);
+    
+    // define corner control points
+    std::vector<Vec2> verts(16);
+    
+    verts[0] = Vec2(0, radius);
+    verts[1] = Vec2(0, radius * oneMinusKappa);
+    verts[2] = Vec2(radius * oneMinusKappa, 0);
+    verts[3] = Vec2(radius, 0);
+    
+    verts[4] = Vec2(size.width - radius, 0);
+    verts[5] = Vec2(size.width - radius * oneMinusKappa, 0);
+    verts[6] = Vec2(size.width, radius * oneMinusKappa);
+    verts[7] = Vec2(size.width, radius);
+    
+    verts[8] = Vec2(size.width, size.height - radius);
+    verts[9] = Vec2(size.width, size.height - radius * oneMinusKappa);
+    verts[10] = Vec2(size.width - radius * oneMinusKappa, size.height);
+    verts[11] = Vec2(size.width - radius, size.height);
+    
+    verts[12] = Vec2(radius, size.height);
+    verts[13] = Vec2(radius * oneMinusKappa, size.height);
+    verts[14] = Vec2(0, size.height - radius * oneMinusKappa);
+    verts[15] = Vec2(0, size.height - radius);
+    
+    // result
+    std::vector<Vec2> polyVerts(4 * cornerSegments + 1);
+    
+    // add corner arc segments
+    appendCubicBezier(0 * cornerSegments, polyVerts, verts[0], verts[1], verts[2], verts[3], cornerSegments);
+    appendCubicBezier(1 * cornerSegments, polyVerts, verts[4], verts[5], verts[6], verts[7], cornerSegments);
+    appendCubicBezier(2 * cornerSegments, polyVerts, verts[8], verts[9], verts[10], verts[11], cornerSegments);
+    appendCubicBezier(3 * cornerSegments, polyVerts, verts[12], verts[13], verts[14], verts[15], cornerSegments);
+    // close path
+    polyVerts[4 * cornerSegments] = verts[0];
+    
+    // draw final poly into mask
+    auto shapeMask = DrawNode::create();
+    shapeMask->drawPolygon(&polyVerts[0], polyVerts.size(), Color4F::WHITE, 0.0f, Color4F::WHITE);
+    
+    // create clip node with draw node as stencil (mask)
+    return ClippingNode::create(shapeMask);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

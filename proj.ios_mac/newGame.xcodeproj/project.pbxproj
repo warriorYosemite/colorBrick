@@ -59,9 +59,20 @@
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		5B05E2BD1D7720BC00CA8BC4 /* StageTwo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B05E2BB1D7720BC00CA8BC4 /* StageTwo.cpp */; };
+		5B05E2BF1D77244F00CA8BC4 /* imageEight.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2BE1D77244F00CA8BC4 /* imageEight.jpg */; };
+		5B05E2C71D77245B00CA8BC4 /* imageFive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2C01D77245A00CA8BC4 /* imageFive.jpg */; };
+		5B05E2C81D77245B00CA8BC4 /* imageFour.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2C11D77245A00CA8BC4 /* imageFour.jpg */; };
+		5B05E2C91D77245B00CA8BC4 /* imageOne.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2C21D77245A00CA8BC4 /* imageOne.jpg */; };
+		5B05E2CB1D77245B00CA8BC4 /* imageSix.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2C41D77245A00CA8BC4 /* imageSix.jpg */; };
+		5B05E2CC1D77245B00CA8BC4 /* imageThree.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2C51D77245B00CA8BC4 /* imageThree.jpg */; };
+		5B05E2D71D772B7400CA8BC4 /* imageSeven.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2D51D772B7400CA8BC4 /* imageSeven.jpg */; };
+		5B05E2D81D772B7400CA8BC4 /* imageTwo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B05E2D61D772B7400CA8BC4 /* imageTwo.jpg */; };
+		5B05E2DB1D772C3F00CA8BC4 /* GridImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B05E2D91D772C3F00CA8BC4 /* GridImage.cpp */; };
 		5B45294F1D74364500506111 /* board_9patch.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B45294E1D74364500506111 /* board_9patch.png */; };
-		5B4529511D74423A00506111 /* game_over.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4529501D74423A00506111 /* game_over.png */; };
-		5B4529531D7447D400506111 /* gameStart.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4529521D7447D400506111 /* gameStart.png */; };
+		5BBB36831D75AFDE00FF35EF /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5BBB36821D75AFDE00FF35EF /* background.jpg */; };
+		5BBB36861D75B00C00FF35EF /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB36841D75B00C00FF35EF /* MainScene.cpp */; };
+		5BBB369F1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB369D1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -156,9 +167,25 @@
 		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		5B05E2BB1D7720BC00CA8BC4 /* StageTwo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StageTwo.cpp; sourceTree = "<group>"; };
+		5B05E2BC1D7720BC00CA8BC4 /* StageTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StageTwo.h; sourceTree = "<group>"; };
+		5B05E2BE1D77244F00CA8BC4 /* imageEight.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageEight.jpg; sourceTree = "<group>"; };
+		5B05E2C01D77245A00CA8BC4 /* imageFive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageFive.jpg; sourceTree = "<group>"; };
+		5B05E2C11D77245A00CA8BC4 /* imageFour.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageFour.jpg; sourceTree = "<group>"; };
+		5B05E2C21D77245A00CA8BC4 /* imageOne.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageOne.jpg; sourceTree = "<group>"; };
+		5B05E2C41D77245A00CA8BC4 /* imageSix.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageSix.jpg; sourceTree = "<group>"; };
+		5B05E2C51D77245B00CA8BC4 /* imageThree.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageThree.jpg; sourceTree = "<group>"; };
+		5B05E2D51D772B7400CA8BC4 /* imageSeven.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageSeven.jpg; sourceTree = "<group>"; };
+		5B05E2D61D772B7400CA8BC4 /* imageTwo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageTwo.jpg; sourceTree = "<group>"; };
+		5B05E2D91D772C3F00CA8BC4 /* GridImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridImage.cpp; sourceTree = "<group>"; };
+		5B05E2DA1D772C3F00CA8BC4 /* GridImage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GridImage.hpp; sourceTree = "<group>"; };
 		5B45294E1D74364500506111 /* board_9patch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board_9patch.png; sourceTree = "<group>"; };
-		5B4529501D74423A00506111 /* game_over.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over.png; sourceTree = "<group>"; };
-		5B4529521D7447D400506111 /* gameStart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameStart.png; sourceTree = "<group>"; };
+		5BBB36821D75AFDE00FF35EF /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		5BBB36841D75B00C00FF35EF /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
+		5BBB36851D75B00C00FF35EF /* MainScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MainScene.hpp; sourceTree = "<group>"; };
+		5BBB369D1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfiniteParallaxNode.cpp; sourceTree = "<group>"; };
+		5BBB369E1D75BBFA00FF35EF /* InfiniteParallaxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteParallaxNode.h; sourceTree = "<group>"; };
+		5BBB36A01D75C53300FF35EF /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		5BE1498C1D707CF400B731F2 /* AppMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMacros.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -291,8 +318,15 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5B4529521D7447D400506111 /* gameStart.png */,
-				5B4529501D74423A00506111 /* game_over.png */,
+				5B05E2D51D772B7400CA8BC4 /* imageSeven.jpg */,
+				5B05E2D61D772B7400CA8BC4 /* imageTwo.jpg */,
+				5B05E2C01D77245A00CA8BC4 /* imageFive.jpg */,
+				5B05E2C11D77245A00CA8BC4 /* imageFour.jpg */,
+				5B05E2C21D77245A00CA8BC4 /* imageOne.jpg */,
+				5B05E2C41D77245A00CA8BC4 /* imageSix.jpg */,
+				5B05E2C51D77245B00CA8BC4 /* imageThree.jpg */,
+				5B05E2BE1D77244F00CA8BC4 /* imageEight.jpg */,
+				5BBB36821D75AFDE00FF35EF /* background.jpg */,
 				5B45294E1D74364500506111 /* board_9patch.png */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				3EACC98E19EE6D4300EB3C5E /* res */,
@@ -307,11 +341,20 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5B05E2D91D772C3F00CA8BC4 /* GridImage.cpp */,
+				5B05E2DA1D772C3F00CA8BC4 /* GridImage.hpp */,
+				5B05E2BB1D7720BC00CA8BC4 /* StageTwo.cpp */,
+				5B05E2BC1D7720BC00CA8BC4 /* StageTwo.h */,
+				5BBB369D1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp */,
+				5BBB369E1D75BBFA00FF35EF /* InfiniteParallaxNode.h */,
 				5BE1498C1D707CF400B731F2 /* AppMacros.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
+				5BBB36841D75B00C00FF35EF /* MainScene.cpp */,
+				5BBB36851D75B00C00FF35EF /* MainScene.hpp */,
+				5BBB36A01D75C53300FF35EF /* constants.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -460,11 +503,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				5B05E2D71D772B7400CA8BC4 /* imageSeven.jpg in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
+				5B05E2C91D77245B00CA8BC4 /* imageOne.jpg in Resources */,
 				5B45294F1D74364500506111 /* board_9patch.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				5BBB36831D75AFDE00FF35EF /* background.jpg in Resources */,
+				5B05E2CB1D77245B00CA8BC4 /* imageSix.jpg in Resources */,
+				5B05E2BF1D77244F00CA8BC4 /* imageEight.jpg in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -472,19 +520,21 @@
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
+				5B05E2C71D77245B00CA8BC4 /* imageFive.jpg in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
-				5B4529511D74423A00506111 /* game_over.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
-				5B4529531D7447D400506111 /* gameStart.png in Resources */,
+				5B05E2CC1D77245B00CA8BC4 /* imageThree.jpg in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
+				5B05E2D81D772B7400CA8BC4 /* imageTwo.jpg in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
+				5B05E2C81D77245B00CA8BC4 /* imageFour.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,10 +559,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				5BBB369F1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				5B05E2BD1D7720BC00CA8BC4 /* StageTwo.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				5B05E2DB1D772C3F00CA8BC4 /* GridImage.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				5BBB36861D75B00C00FF35EF /* MainScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

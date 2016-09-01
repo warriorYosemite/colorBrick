@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "ui/UIWidget.h"
+
 using namespace cocos2d::ui;
 USING_NS_CC;
 
@@ -32,9 +33,10 @@ public:
     bool isGameOver;
     
     Scale9Sprite* popUpLayer;
+    Scale9Sprite* homeButtonBg;
     
     std::vector<Color3B> m_colorVector;
-    std::vector<LayerColor*> m_gridVector;
+    std::vector<Node*> m_gridVector;
     
     
     void createTopHeader();
@@ -46,8 +48,13 @@ public:
     void resetAllGridColors();
     void handleGameOver();
     void handleHighScore();
+    void appendCubicBezier(int startPoint, std::vector<Vec2>& verts, const Vec2& from, const Vec2& control1, const Vec2& control2, const Vec2& to, uint32_t segments);
+    Node* createRoundedRectMaskNode(Size size, float radius, float borderWidth, int cornerSegments);
+    
+    
     
     void restartGameScenario(Ref* pSender);
+    void homeButtonCallback(Ref* pSender);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
