@@ -12,7 +12,9 @@
 #define GAME_FONT                            "fonts/Deanna.ttf"
 #define GAME_FONT_HEADER                     "fonts/SpongeboyMeBob.ttf"
 
-#define GAME_HIGH_SCORE_KEY                         "highScoreKey"
+#define GAME_HIGH_SCORE_KEY                  "highScoreKey"
+
+#define SOUND_GUN_SHOT                       "sounds/shotGun.mp3"
 
 
 

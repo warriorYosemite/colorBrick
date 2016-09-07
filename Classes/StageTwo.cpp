@@ -2,6 +2,9 @@
 #include "extensions/cocos-ext.h"
 #include "constants.h"
 #include "MainScene.hpp"
+#include "audio/include/AudioEngine.h"
+#include "SimpleAudioEngine.h"
+
 
 USING_NS_CC;
 
@@ -10,9 +13,13 @@ using namespace std;
 #define GRID_BASE_TAG               100
 #define NUMBER_OF_GRIDS             8
 
-
-
 #define TIME_DURATION               2
+
+int myrandom (int i){
+    return std::rand()%i;
+}
+
+using namespace cocos2d::experimental;
 
 Scene* StageTwo::createScene()
 {
@@ -43,6 +50,7 @@ bool StageTwo::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     m_gridVector.clear();
     m_colorVector.clear();
+    m_countThreshold = 1;
     
     return true;
 }
@@ -59,6 +67,11 @@ void StageTwo::onEnter()
     isTouched = true;
     isGameOver = false;
     isCharacterSelected = false;
+    m_deadCharacterVector.clear();
+    m_aliveCharacterVector.clear();
+    isLevelUp = false;
+    
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(SOUND_GUN_SHOT);
     
     
     LayerColor* m_bgLayer = LayerColor::create(Color4B(0,0,0, 255), visibleSize.width, visibleSize.height);
@@ -211,8 +224,35 @@ bool StageTwo::onTouchBegan(Touch *touch, Event *event)
             
             if (currColor.compare(playerName) == 0)
             {
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(SOUND_GUN_SHOT);
+                
                 m_Score++;
                 playerScore->setString(std::to_string(m_Score));
+                
+                int killCount = colorE->getKillCount();
+                killCount++;
+                colorE->setKillCount(killCount);
+                
+                if (killCount >= m_countThreshold){
+                    
+                    colorE->setPermanentlyKilled(true);
+                    m_deadCharacterVector.push_back(currColor);
+                    m_aliveCharacterVector.erase(std::remove(m_aliveCharacterVector.begin(), m_aliveCharacterVector.end(), colorE), m_aliveCharacterVector.end());
+                    
+                }else{
+                    CallFunc* callFun1 = CallFunc::create([=] {
+                        
+                        colorE->setKillStatus(true);
+                        
+                    });
+                    
+                    CallFunc* callFun2 = CallFunc::create([=]{
+                        
+                        colorE->setKillStatus(false);
+                    });
+                    
+                    colorE->runAction(Sequence::create(callFun1, DelayTime::create(TIME_DURATION), callFun2, NULL));
+                }
                 break;
             }
             else
@@ -233,6 +273,9 @@ void StageTwo::handleGameOver(){
 
     this->unschedule(CC_SCHEDULE_SELECTOR(StageTwo::updateColors));
     
+    std::string popupHeader = "";
+    std::string buttonName = "";
+    
     if (m_Score > m_highScore)
     {
         m_highScore = m_Score;
@@ -245,7 +288,15 @@ void StageTwo::handleGameOver(){
     popUpLayer->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height * 0.5));
     this->addChild(popUpLayer);
     
-    Label* gameOverText = Label::createWithTTF("GAME OVER !", GAME_FONT_HEADER, 50);
+    if (isLevelUp){
+    
+        popupHeader = "LEVEL UP !";
+    }else{
+    
+        popupHeader = "GAME OVER !";
+    }
+    
+    Label* gameOverText = Label::createWithTTF(popupHeader, GAME_FONT_HEADER, 50);
     gameOverText->setColor(Color3B::WHITE);
     gameOverText->setPosition(Vec2(popUpLayer->getContentSize().width * 0.5, popUpLayer->getContentSize().height - gameOverText->getContentSize().height *0.9));
     popUpLayer->addChild(gameOverText);
@@ -265,8 +316,15 @@ void StageTwo::handleGameOver(){
     highScoreStr->setPosition(Vec2(popUpLayer->getContentSize().width * 0.5, popUpLayer->getContentSize().height * 0.6));
     popUpLayer->addChild(highScoreStr);
     
+    if (isLevelUp){
+        
+        buttonName = "CONTINUE";
+    }else{
+        
+        buttonName = "PLAY AGAIN";
+    }
     
-    Label* gameStart = Label::createWithTTF("PLAY AGAIN", GAME_FONT_HEADER, 55);
+    Label* gameStart = Label::createWithTTF(buttonName, GAME_FONT_HEADER, 55);
     MenuItemLabel* restartImage = MenuItemLabel::create(gameStart, CC_CALLBACK_1(StageTwo::restartGameScenario, this));
     restartImage->setAnchorPoint(Vec2(0.5,0.5));
     auto restartMenu = Menu::create(restartImage, NULL);
@@ -287,7 +345,6 @@ void StageTwo::handleGameOver(){
     auto homeMenu = Menu::create(homeStr, NULL);
     homeMenu->setPosition(Vec2(homeButtonBg->getContentSize().width * 0.5, homeButtonBg->getContentSize().height * 0.5));
     homeButtonBg->addChild(homeMenu);
-
 }
 
 void StageTwo::homeButtonCallback(Ref* pSender){
@@ -308,8 +365,17 @@ void StageTwo::homeButtonCallback(Ref* pSender){
 void StageTwo::restartGameScenario(Ref* pSender){
     CCLOG("restart game clicked");
     
+    if (isLevelUp){
+    
+        //do not edit the score
+        m_countThreshold = m_countThreshold + 2;
+        
+    }else{
+    
+        m_Score = 0;
+    }
+    
     m_previousNumber = -1;
-    m_Score = 0;
     isCharacterSelected = false;
     isTouched = true;
     isGameOver = false;
@@ -318,9 +384,20 @@ void StageTwo::restartGameScenario(Ref* pSender){
     m_selectedPlayerName.clear();
     selectCharacterToSave(1);
     resetAllGridColors();
+    m_deadCharacterVector.clear();
+    m_aliveCharacterVector.clear();
+    
+    for (int i=0; i< m_gridCount; i++)
+    {
+        GridImage* imageE = m_colorVector.at(i);
+        m_aliveCharacterVector.push_back(imageE);
+    }
     
     popUpLayer->removeFromParentAndCleanup(true);
     homeButtonBg->removeFromParentAndCleanup(true);
+    
+    isLevelUp = false;
+    
 //    this->schedule(CC_SCHEDULE_SELECTOR(StageTwo::updateColors), TIME_DURATION);
     
 }
@@ -339,86 +416,107 @@ void StageTwo::fillImageVector()
 {
 
     GridImage* elem1 = GridImage::create("imageOne.jpg");
+    elem1->killCountDisplay();
     elem1->setImageName("Crow JonSnow");
     m_colorVector.push_back(elem1);
     
     GridImage* elem2 = GridImage::create("imageTwo.jpg");
+    elem2->killCountDisplay();
     elem2->setImageName("Sweet Cersie");
     m_colorVector.push_back(elem2);
 
     GridImage* elem3 = GridImage::create("imageThree.jpg");
+    elem3->killCountDisplay();
     elem3->setImageName("FrndZond Jorah");
     m_colorVector.push_back(elem3);
 
     GridImage* elem4 = GridImage::create("imageFour.jpg");
+    elem4->killCountDisplay();
     elem4->setImageName("Khal Drogo");
     m_colorVector.push_back(elem4);
 
     GridImage* elem5 = GridImage::create("imageFive.jpg");
+    elem5->killCountDisplay();
     elem5->setImageName("Dragon Khaleesi");
     m_colorVector.push_back(elem5);
 
     GridImage* elem6 = GridImage::create("imageSix.jpg");
+    elem6->killCountDisplay();
     elem6->setImageName("Bastrd RamSay");
     m_colorVector.push_back(elem6);
 
     GridImage* elem7 = GridImage::create("imageSeven.jpg");
+    elem7->killCountDisplay();
     elem7->setImageName("Tryion D IMP");
     m_colorVector.push_back(elem7);
 
     GridImage* elem8 = GridImage::create("imageEight.jpg");
+    elem8->killCountDisplay();
     elem8->setImageName("Joffrey MOFO");
     m_colorVector.push_back(elem8);
     
     GridImage* elem9 = GridImage::create("imageNine.jpg");
+    elem9->killCountDisplay();
     elem9->setImageName("Ned Stark");
     m_colorVector.push_back(elem9);
     
     GridImage* elem10 = GridImage::create("imageTen.jpg");
+    elem10->killCountDisplay();
     elem10->setImageName("Robb Stark");
     m_colorVector.push_back(elem10);
     
     GridImage* elem11 = GridImage::create("imageEleven.jpg");
+    elem11->killCountDisplay();
     elem11->setImageName("Samuel Tarly");
     m_colorVector.push_back(elem11);
     
     GridImage* elem12 = GridImage::create("imageTwelve.jpg");
+    elem12->killCountDisplay();
     elem12->setImageName("Little Finger");
     m_colorVector.push_back(elem12);
     
     GridImage* elem13 = GridImage::create("imageThirteen.jpg");
+    elem13->killCountDisplay();
     elem13->setImageName("Theon Grejoy");
     m_colorVector.push_back(elem13);
     
     GridImage* elem14 = GridImage::create("imageFourteen.jpg");
+    elem14->killCountDisplay();
     elem14->setImageName("Lord Varys");
     m_colorVector.push_back(elem14);
     
     GridImage* elem15 = GridImage::create("imageFifteen.jpg");
+    elem15->killCountDisplay();
     elem15->setImageName("Pizza Joey");
     m_colorVector.push_back(elem15);
     
     GridImage* elem16 = GridImage::create("imageSixteen.png");
+    elem16->killCountDisplay();
     elem16->setImageName("Stylish Rachel");
     m_colorVector.push_back(elem16);
     
     GridImage* elem17 = GridImage::create("imageSeventeen.jpg");
+    elem17->killCountDisplay();
     elem17->setImageName("Freaky Pheobe");
     m_colorVector.push_back(elem17);
     
     GridImage* elem18 = GridImage::create("imageEighteen.jpeg");
+    elem18->killCountDisplay();
     elem18->setImageName("Red Ross");
     m_colorVector.push_back(elem18);
     
     GridImage* elem19 = GridImage::create("imageNineteen.png");
+    elem19->killCountDisplay();
     elem19->setImageName("Bossy Monica");
     m_colorVector.push_back(elem19);
     
     GridImage* elem20 = GridImage::create("imageTwenty.jpg");
+    elem20->killCountDisplay();
     elem20->setImageName("Funny Chandler");
     m_colorVector.push_back(elem20);
     
     GridImage* elem21 = GridImage::create("imageTwentyone.jpg");
+    elem21->killCountDisplay();
     elem21->setImageName("Just Gunther");
     m_colorVector.push_back(elem21);
 }
@@ -471,22 +569,24 @@ void StageTwo::updateColors(float dt)
         }
     }
 
-    resetAllGridColors();
 
     int randNo;
+    int totalElemLeft = (int)m_aliveCharacterVector.size();
+    if (totalElemLeft == 1){
+    
+        isLevelUp = true;
+        handleGameOver();
+        return;
+    }
     
     do {
-        randNo = random(0, m_gridCount - 1);                // to avoid same color to be WHITE continously
+        randNo = random(0, totalElemLeft - 1);                // to avoid same color to be WHITE continously
     } while (randNo == m_previousNumber);
     
     
-    std::string playerName = m_colorVector.at(randNo)->getImageName();
-    m_playerKillName->setString(playerName);
+    std::string playerName = m_aliveCharacterVector.at(randNo)->getImageName();
     
-//    Node* currE = m_gridVector.at(randNo);
-//    
-//    LayerColor* layerE = (LayerColor*)currE->getChildByTag(GRID_BASE_TAG + randNo);
-//    layerE->setColor(Color3B::WHITE);
+    m_playerKillName->setString(playerName);
     
     m_previousNumber = randNo;
     isTouched = false;
@@ -494,16 +594,13 @@ void StageTwo::updateColors(float dt)
 
 void StageTwo::resetAllGridColors(){
     
-//    std::random_shuffle ( m_gridVector.begin(), m_gridVector.end() );
-
-//    CCLOG("all grid colors reset");
-//    for (int i=0; i < m_gridCount; i++)
-//    {
-//        Node* tempE = m_gridVector.at(i);
-//        LayerColor* layerE = (LayerColor*)tempE->getChildByTag(GRID_BASE_TAG + i);
-//        Color3B originalColor = m_colorVector.at(i);
-//        layerE->setColor(originalColor);
-//    }
+    //set kill count to zero, on game restart
+    for (int i=0; i< m_gridCount ; i++){
+    
+        GridImage* imageE = m_colorVector.at(i);
+        imageE->setKillCount(0);
+        imageE->setPermanentlyKilled(false);
+    }
 }
 
 
@@ -536,7 +633,8 @@ void StageTwo::createGameGrids(){
 
     CCLOG("creating game grids and pushing them in a vector");
     
-    std::random_shuffle(m_colorVector.begin(), m_colorVector.end());
+    
+    std::random_shuffle(m_colorVector.begin(), m_colorVector.end() , myrandom);
     
     for (int i=0; i < m_gridCount; i++)
     {
@@ -544,7 +642,9 @@ void StageTwo::createGameGrids(){
         
         GridImage* imageE = m_colorVector.at(i);
         imageE->setTag(GRID_BASE_TAG + i);
-
+        
+        m_aliveCharacterVector.push_back(imageE);
+        
         Size ws = layerE->getContentSize();
         Size maskSize = ws* 0.925;
         

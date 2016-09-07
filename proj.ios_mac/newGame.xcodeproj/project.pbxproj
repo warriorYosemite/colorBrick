@@ -83,6 +83,9 @@
 		5B3675231D79CC1D0068B6EC /* imageTwenty.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B3675161D79CC1D0068B6EC /* imageTwenty.jpg */; };
 		5B3675241D79CC1D0068B6EC /* imageTwentyone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B3675171D79CC1D0068B6EC /* imageTwentyone.jpg */; };
 		5B45294F1D74364500506111 /* board_9patch.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B45294E1D74364500506111 /* board_9patch.png */; };
+		5B4794CF1D801AAC005809AE /* gunshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4794CE1D801AAC005809AE /* gunshot.png */; };
+		5B4794D41D802080005809AE /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 5B4794D31D802080005809AE /* sounds */; };
+		5B4794D61D8030D4005809AE /* dead.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4794D51D8030D4005809AE /* dead.png */; };
 		5BBB36831D75AFDE00FF35EF /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5BBB36821D75AFDE00FF35EF /* background.jpg */; };
 		5BBB36861D75B00C00FF35EF /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB36841D75B00C00FF35EF /* MainScene.cpp */; };
 		5BBB369F1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB369D1D75BBFA00FF35EF /* InfiniteParallaxNode.cpp */; };
@@ -207,6 +210,9 @@
 		5B3675161D79CC1D0068B6EC /* imageTwenty.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageTwenty.jpg; sourceTree = "<group>"; };
 		5B3675171D79CC1D0068B6EC /* imageTwentyone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageTwentyone.jpg; sourceTree = "<group>"; };
 		5B45294E1D74364500506111 /* board_9patch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board_9patch.png; sourceTree = "<group>"; };
+		5B4794CE1D801AAC005809AE /* gunshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gunshot.png; sourceTree = "<group>"; };
+		5B4794D31D802080005809AE /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
+		5B4794D51D8030D4005809AE /* dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dead.png; sourceTree = "<group>"; };
 		5BBB36821D75AFDE00FF35EF /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 		5BBB36841D75B00C00FF35EF /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
 		5BBB36851D75B00C00FF35EF /* MainScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MainScene.hpp; sourceTree = "<group>"; };
@@ -347,6 +353,9 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5B4794D51D8030D4005809AE /* dead.png */,
+				5B4794D31D802080005809AE /* sounds */,
+				5B4794CE1D801AAC005809AE /* gunshot.png */,
 				5B36750B1D79CC1D0068B6EC /* imageEighteen.jpeg */,
 				5B36750C1D79CC1D0068B6EC /* imageEleven.jpg */,
 				5B36750D1D79CC1D0068B6EC /* imageFifteen.jpg */,
@@ -548,10 +557,12 @@
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				5B05E2D71D772B7400CA8BC4 /* imageSeven.jpg in Resources */,
+				5B4794D41D802080005809AE /* sounds in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5B36751A1D79CC1D0068B6EC /* imageFifteen.jpg in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				5B05E2C91D77245B00CA8BC4 /* imageOne.jpg in Resources */,
+				5B4794CF1D801AAC005809AE /* gunshot.png in Resources */,
 				5B3675191D79CC1D0068B6EC /* imageEleven.jpg in Resources */,
 				5B45294F1D74364500506111 /* board_9patch.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
@@ -564,6 +575,7 @@
 				5B3675231D79CC1D0068B6EC /* imageTwenty.jpg in Resources */,
 				5B05E2BF1D77244F00CA8BC4 /* imageEight.jpg in Resources */,
 				5B36751F1D79CC1D0068B6EC /* imageSixteen.png in Resources */,
+				5B4794D61D8030D4005809AE /* dead.png in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,

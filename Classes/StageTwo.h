@@ -31,8 +31,10 @@ public:
     Label* playerScore;
 
     Label* m_playerKillName;
-
     Layer* popUpLayerBase;
+    
+    bool isLevelUp;
+    int m_countThreshold;
     
     bool isTouched;
     bool isGameOver;
@@ -47,6 +49,8 @@ public:
     std::vector<GridImage*> m_colorVector;
     std::vector<Node*> m_gridVector;
     std::string m_selectedPlayerName;
+    std::vector<std::string> m_deadCharacterVector;
+    std::vector<GridImage*> m_aliveCharacterVector;
     
     void createTopHeader();
     void setNumberOfGrids(int count);
