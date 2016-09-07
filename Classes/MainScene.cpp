@@ -76,8 +76,8 @@ void MainScene::createTextItems(){
     highScoreStr->setPosition(Vec2(visibleSize.width * 0.5, visibleSize.height * 0.25));
     this->addChild(highScoreStr);
     
-    std::string textStr = "Game Objective \n Touch the white color within 1 sec";
-    Label* ruleStr = Label::createWithTTF(textStr, GAME_FONT_HEADER, 30);
+    std::string textStr = "Touch the white color within 1 sec World 1 \n Save your Fav character in World 2";
+    Label* ruleStr = Label::createWithTTF(textStr, GAME_FONT_HEADER, 28);
     ruleStr->setAlignment(TextHAlignment::CENTER);
     ruleStr->setPosition(Vec2(visibleSize.width * 0.5, 50));
     this->addChild(ruleStr);

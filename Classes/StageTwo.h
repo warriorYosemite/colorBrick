@@ -31,16 +31,22 @@ public:
     Label* playerScore;
 
     Label* m_playerKillName;
+
+    Layer* popUpLayerBase;
     
     bool isTouched;
     bool isGameOver;
+    bool isCharacterSelected;
+    
+//    EventListenerTouchOneByOne* touchListener;
     
     Scale9Sprite* popUpLayer;
     Scale9Sprite* homeButtonBg;
+    Scale9Sprite* m_characterSelection;
     
     std::vector<GridImage*> m_colorVector;
     std::vector<Node*> m_gridVector;
-    
+    std::string m_selectedPlayerName;
     
     void createTopHeader();
     void setNumberOfGrids(int count);
@@ -51,13 +57,19 @@ public:
     void resetAllGridColors();
     void handleGameOver();
     void handleHighScore();
+    void selectCharacterToSave(int buttonCount);
+    
     void appendCubicBezier(int startPoint, std::vector<Vec2>& verts, const Vec2& from, const Vec2& control1, const Vec2& control2, const Vec2& to, uint32_t segments);
     Node* createRoundedRectMaskNode(Size size, float radius, float borderWidth, int cornerSegments);
     
     
     
+    
     void restartGameScenario(Ref* pSender);
     void homeButtonCallback(Ref* pSender);
+    
+    void okButtonCallback(Ref* pSender);
+    void cancelButtonCallback(Ref* pSender);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
